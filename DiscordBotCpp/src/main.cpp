@@ -43,10 +43,10 @@ int main()
 	/* The event is fired when the bot detects a message in any server and any channel it has access to. */
 	bot.on_message_create([&bot](const dpp::message_create_t& event) {
 		/* See if the message contains the phrase we want to check for.
-		 * If there's at least a single match, we reply and say it's not allowed.
+		 * If there's at least a single match, we reply with a message.
 		 */
 		if (event.msg.content.find("check this") != std::string::npos) {
-			event.reply("You said \"check this\"", true);
+			event.reply("Nice try, but I know you said \"check this\"! ", true);
 		}
 		});
 
