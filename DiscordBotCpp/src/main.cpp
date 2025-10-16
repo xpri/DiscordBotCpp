@@ -22,7 +22,11 @@ int main()
 		{
 			std::vector<dpp::slashcommand> commands
 			{
-				{ "ping", "Ping pong!", bot.me.id }
+				{ "ping", "Ping pong!", bot.me.id } //registers the command onto discord (?)
+				,
+				{ "embed", "I am testing commands.", bot.me.id }			//must restart discord to work.
+				,
+				{ "quote", "Generate a random quote.", bot.me.id }
 			};
 
 			bot.global_bulk_command_create(commands);
@@ -36,7 +40,14 @@ int main()
 		{
 			co_await event.co_reply("Pong!");
 		}
-		co_return;
+		else if (event.command.get_command_name() == "embed")
+		{
+			co_await event.co_reply("Wow did this work??");
+		}
+		else if (event.command.get_command_name() == "quote")
+		{
+			co_await event.co_reply("PLACEHOLDER");
+		}
 	});
 
 
@@ -57,7 +68,7 @@ int main()
 
 		if (event.msg.content.find(ChkTs) != std::string::npos)
 		{
-			event.reply("Nice try, but I know you said \"" + ChkTs + "\!""", true);
+			event.reply("Nice try, but I know you said \"" + ChkTs + "\"!", true);
 		}
 	});
 
