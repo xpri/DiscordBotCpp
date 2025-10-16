@@ -1,6 +1,8 @@
 //#include "MyBot.h"
-#include <iostream>
 #include <dpp/dpp.h>
+
+#include <iostream>
+#include "BOT_TOKEN.cpp"
 
 /* Be sure to place your token in the line below.
  * Follow steps here to get a token:
@@ -9,7 +11,6 @@
  * scopes 'bot' and 'applications.commands', e.g.
  * https://discord.com/oauth2/authorize?client_id=940762342495518720&scope=bot+applications.commands&permissions=139586816064
  */
-const std::string    BOT_TOKEN = "MTA5MDk0NzA0NDU4NTI0MjcxNA.GqqF_j.-lhG1OnKzUHOtutZaUrT8NqESCYwhLfN0wBtcg";
 
 int main()
 {
@@ -37,6 +38,16 @@ int main()
 			co_await event.co_reply("Pong!");
 		}
 		co_return;
+		});
+
+	/* The event is fired when the bot detects a message in any server and any channel it has access to. */
+	bot.on_message_create([&bot](const dpp::message_create_t& event) {
+		/* See if the message contains the phrase we want to check for.
+		 * If there's at least a single match, we reply and say it's not allowed.
+		 */
+		if (event.msg.content.find("check this") != std::string::npos) {
+			event.reply("You said \"check this\"", true);
+		}
 		});
 
 	/* Start the bot */
