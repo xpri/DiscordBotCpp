@@ -4,7 +4,7 @@
 
 #include "BOT_TOKEN.cpp"
 
-int ink() {             //not working right now.
+int ink() {             //not working right now.        NOT INCLUDED IN THE CMAKELISTS.TXT FILE!!!! MUST READD FOR THIS TO WORK.
     /* Setup the bot */
     dpp::cluster bot(BOT_TOKEN);
 
