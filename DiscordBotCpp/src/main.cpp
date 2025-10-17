@@ -24,7 +24,7 @@ int main()
 			{
 				{ "ping", "Ping pong!", bot.me.id } //registers the command onto discord (?)
 				,
-				{ "embed", "I am testing commands.", bot.me.id }			//must restart discord to work.
+				{ "embed", "I am testing commands.", bot.me.id }			// Must restart discord to work.
 				,
 				{ "quote", "Generate a random quote.", bot.me.id }
 			};
@@ -34,18 +34,61 @@ int main()
 	});
 
 	// The event is fired when someone issues your commands
-	bot.on_slashcommand([](const dpp::slashcommand_t& event) -> dpp::task<void>
+	bot.on_slashcommand([&bot](const dpp::slashcommand_t& event) -> dpp::task<void>			// You can only call one event.reply command once per slash command.
 	{
 		if (event.command.get_command_name() == "ping")
 		{
 			co_await event.co_reply("Pong!");
 		}
+		if (event.command.get_command_name() == "quote") {
+			/* Reply to the user, but only let them see the response. */
+			co_await event.co_reply(dpp::message("Hello! How are you today?").set_flags(dpp::m_ephemeral));			// Specifically the set_flags extension
+		}
 		else if (event.command.get_command_name() == "embed")
 		{
-			co_await event.co_reply("Wow did this work??");
+			/* Create an embed */
+			dpp::embed embed = dpp::embed()
+				.set_color(dpp::colors::sti_blue)
+				.set_title("Some name")
+				.set_url("https://dpp.dev/")
+				.set_author("Some name", "https://dpp.dev/", "https://dpp.dev/DPP-Logo.png")
+				.set_description("Some description here")
+				.set_thumbnail("https://dpp.dev/DPP-Logo.png")
+				.add_field(
+					"Regular field title",
+					"Some value here"
+				)
+				.add_field(
+					"Inline field title",
+					"Some value here",
+					true
+				)
+				.add_field(
+					"Inline field title",
+					"Some value here",
+					true
+				)
+				.set_image("https://dpp.dev/DPP-Logo.png")
+				.set_footer(
+					dpp::embed_footer()
+					.set_text("Some footer text here")
+					.set_icon("https://dpp.dev/DPP-Logo.png")
+				)
+				.set_timestamp(time(0));
+
+			/* Create a message with the content as our new embed. */
+			dpp::message msg(event.command.channel_id, embed);
+
+			/* Reply to the user with the message, containing our embed. */
+			co_await event.co_reply(msg);
+
+
+			/* Then send a follow-up message */
+			bot.message_create(dpp::message(event.command.channel_id, "Did it give an embed?"));
 		}
 		else if (event.command.get_command_name() == "quote")
 		{
+			event.reply("Hello World!");
 			co_await event.co_reply("PLACEHOLDER");
 		}
 	});
