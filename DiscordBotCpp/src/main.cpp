@@ -1,7 +1,8 @@
-//#include "MyBot.h"
-#include <dpp/dpp.h>
-
 #include <iostream>
+#include <dpp/dpp.h>
+#include <nlohmann/json.hpp>
+
+#include "helper.h"
 #include "BOT_TOKEN.cpp"
 
 int main()
@@ -38,11 +39,18 @@ int main()
 	{
 		if (event.command.get_command_name() == "ping")
 		{
-			co_await event.co_reply("Pong!");
+			// Replies to user, but only let THEM see the response.
+			co_await event.co_reply(dpp::message("pong").set_flags(dpp::m_ephemeral));
 		}
-		if (event.command.get_command_name() == "quote") {
-			/* Reply to the user, but only let them see the response. */
-			co_await event.co_reply(dpp::message("Hello! How are you today?").set_flags(dpp::m_ephemeral));			// Specifically the set_flags extension
+		else if (event.command.get_command_name() == "quote") {
+			// Show "thinking" indicator since API call might take time
+			event.thinking();
+
+			// Fetch the quote - similar to your quote = get_quote()
+			std::string quote = co_await get_quote(bot);
+
+			// Reply with the formatted quote - similar to await ctx.reply()
+			co_await event.co_edit_response("Here is your quote:\n" + quote);
 		}
 		else if (event.command.get_command_name() == "embed")
 		{
@@ -85,11 +93,6 @@ int main()
 
 			/* Then send a follow-up message */
 			bot.message_create(dpp::message(event.command.channel_id, "Did it give an embed?"));
-		}
-		else if (event.command.get_command_name() == "quote")
-		{
-			event.reply("Hello World!");
-			co_await event.co_reply("PLACEHOLDER");
 		}
 	});
 
