@@ -6,5 +6,7 @@
 
 // Function declaration
 dpp::task<std::string> get_quote(dpp::cluster& bot);
+dpp::task<std::string> get_fact(dpp::cluster& bot);
+dpp::task<std::string> get_cat_image(dpp::cluster& bot);
 
 #endif
