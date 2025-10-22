@@ -28,6 +28,10 @@ int main()
 				{ "embed", "I am testing commands.", bot.me.id }			// Must restart discord to work.
 				,
 				{ "quote", "Generate a random quote.", bot.me.id }
+				,
+				{ "fact", "Generate a random useless fact.", bot.me.id}
+				,
+				{ "cat", "Generate a random cat picture.", bot.me.id}
 			};
 
 			bot.global_bulk_command_create(commands);
@@ -46,11 +50,57 @@ int main()
 			// Show "thinking" indicator since API call might take time
 			event.thinking();
 
-			// Fetch the quote - similar to your quote = get_quote()
+			// Fetch the quote
 			std::string quote = co_await get_quote(bot);
 
-			// Reply with the formatted quote - similar to await ctx.reply()
+			// Reply with the formatted quote
 			co_await event.co_edit_response("Here is your quote:\n" + quote);
+		}
+		else if (event.command.get_command_name() == "fact")
+		{
+			event.thinking();
+			std::string fact = co_await get_fact(bot);
+			co_await event.co_edit_response("Here is your fact:\n" + fact);
+		}
+		else if (event.command.get_command_name() == "cat") 
+		{
+			event.thinking();
+			std::string cat_image_url = co_await get_cat_image(bot);
+			if (cat_image_url.find("https") == 0)
+			{
+				// continue with a positive
+				dpp::embed embed = dpp::embed()
+					.set_color(dpp::colors::salmon)
+					.set_title("Random Cat Media")
+					.set_url("https://thecatapi.com/")
+					.add_field
+					(
+						"So cute! Right..?"
+						,
+						""
+					)
+					.set_image(cat_image_url)
+
+					.set_footer
+					(
+						dpp::embed_footer()
+						.set_text("Powered by The Cat API")
+					)
+					.set_timestamp(time(0));
+
+				/* Create a message with the content as our new embed. */
+				dpp::message msg(event.command.channel_id, embed);
+
+				/* Reply to the user with the message, containing our embed. */
+				//co_await event.co_reply(msg);
+				// Recall you can only send one message per slash command and it was already used for the 'event.thinking
+				// So you have to use edit_response. And since we need the coroutine so add the co_ infront.
+				co_await event.co_edit_response(msg);
+			}
+			else
+			{
+				co_await event.co_edit_response("Sorry, couldn't fetch a cat picture: " + cat_image_url);
+			}
 		}
 		else if (event.command.get_command_name() == "embed")
 		{
@@ -62,22 +112,26 @@ int main()
 				.set_author("Some name", "https://dpp.dev/", "https://dpp.dev/DPP-Logo.png")
 				.set_description("Some description here")
 				.set_thumbnail("https://dpp.dev/DPP-Logo.png")
-				.add_field(
+				.add_field
+				(
 					"Regular field title",
 					"Some value here"
 				)
-				.add_field(
+				.add_field
+				(
 					"Inline field title",
 					"Some value here",
 					true
 				)
-				.add_field(
+				.add_field
+				(
 					"Inline field title",
 					"Some value here",
 					true
 				)
 				.set_image("https://dpp.dev/DPP-Logo.png")
-				.set_footer(
+				.set_footer
+				(
 					dpp::embed_footer()
 					.set_text("Some footer text here")
 					.set_icon("https://dpp.dev/DPP-Logo.png")
