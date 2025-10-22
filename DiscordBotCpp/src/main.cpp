@@ -3,7 +3,7 @@
 #include <nlohmann/json.hpp>
 
 #include "helper.h"
-#include "BOT_TOKEN.cpp"
+#include "config.cpp"
 
 int main()
 {

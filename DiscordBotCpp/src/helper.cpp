@@ -82,3 +82,7 @@ dpp::task<std::string> get_cat_image(dpp::cluster& bot)
         co_return "Failed to fetch cat image. API returned: " + std::to_string(result.status);
     }
 }
+dpp::task<std::string> ask_gemini(dpp::cluster& bot, const std::string& prompt)
+{
+    // Put code here
+}
