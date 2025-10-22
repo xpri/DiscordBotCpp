@@ -7,8 +7,6 @@ project(DiscordBotCPP)
 
 find_package(dpp CONFIG REQUIRED)
 
-find_package(nlohmann_json REQUIRED)
-
 add_executable(${PROJECT_NAME}
 		src/main.cpp
 	 "src/helper.cpp" "src/helper.h" "src/config.cpp")
