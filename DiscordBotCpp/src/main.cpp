@@ -71,11 +71,11 @@ int main()
 				// continue with a positive
 				dpp::embed embed = dpp::embed()
 					.set_color(dpp::colors::salmon)
-					.set_title("Random Cat Picture")
+					.set_title("Random Cat Media")
 					.set_url("https://thecatapi.com/")
 					.add_field
 					(
-						"So cute!!"
+						"So cute! Right..?"
 						,
 						""
 					)
