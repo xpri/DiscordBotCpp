@@ -11,6 +11,6 @@ find_package(nlohmann_json REQUIRED)
 
 add_executable(${PROJECT_NAME}
 		src/main.cpp
-	 "src/helper.cpp" "src/helper.h" "src/BOT_TOKEN.cpp")
+	 "src/helper.cpp" "src/helper.h" "src/config.cpp")
 
 target_link_libraries(${PROJECT_NAME} PRIVATE dpp::dpp)
