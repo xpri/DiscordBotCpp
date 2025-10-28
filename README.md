@@ -1,7 +1,10 @@
 Hellllooo!!!
 This took a long time to setup...
+
+Please use visual studio 2022.
+
 Make sure you have everything correct in all the files. All you have to do is press (on windows) ctrl + s on the CMakeLists.txt and it will recompile the
-entire project in CMAke. Then press build on the top ribbon thne build all. After build has completed then you can run the DiscordBotCPP.exe.
+entire project in CMake. Then press build on the top ribbon then build all. After the build has completed then you can run the DiscordBotCPP.exe.
 
 On the first compilation of the CMake it will take a long time. Just be patient.
 
